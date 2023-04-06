@@ -86,7 +86,9 @@ ArmorDetectorNode::ArmorDetectorNode(const rclcpp::NodeOptions & options)
 
   img_sub_ = this->create_subscription<sensor_msgs::msg::Image>(
     "/image_raw", rclcpp::SensorDataQoS(),
-    std::bind(&ArmorDetectorNode::imageCallback, this, std::placeholders::_1));
+    [this](const sensor_msgs::msg::Image::ConstSharedPtr img_msg) {
+      return this->imageCallback(img_msg);
+    });
 }
 
 void ArmorDetectorNode::imageCallback(const sensor_msgs::msg::Image::ConstSharedPtr & img_msg)
